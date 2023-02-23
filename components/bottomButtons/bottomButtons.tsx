@@ -1,11 +1,6 @@
 import { StaticImageWithAlt } from "@/programming memes";
 import useDownloader from "react-use-downloader";
-import {
-  Box,
-  Button,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Box, Button, useMediaQuery, useTheme } from "@mui/material";
 import { useEffect } from "react";
 
 interface DownloadButtonProps {

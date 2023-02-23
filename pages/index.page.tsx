@@ -1,9 +1,4 @@
-import {
-  Button,
-  Grid,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Button, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { GetServerSideProps } from "next";
 import { loadMemes, StaticImageWithAlt } from "@/programming memes";
 import { useMeme, useSwipe } from "@/lib";
@@ -39,25 +34,27 @@ export default function Home({ memes }: HomeProps) {
 
   const onClickOpenMeme = () => {
     window.open(meme?.src, "_blank");
-  }
+  };
 
   return (
-    <ContentGridContainer>
-      <Grid item xs={12}>
-        <Button variant="contained" size="large" onClick={setRandomMeme}>
-          Random meme!
-        </Button>
-      </Grid>
-      <Grid item xs={12}>
-        <MemeImage
-          meme={meme}
-          onClick={matchesSm ? onClickOpenMeme : undefined}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <BottomButtons meme={meme} />
-      </Grid>
-    </ContentGridContainer>
+    <>
+      <ContentGridContainer>
+        <Grid item xs={12}>
+          <Button variant="contained" size="large" onClick={setRandomMeme}>
+            Random meme!
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
+          <MemeImage
+            meme={meme}
+            onClick={matchesSm ? onClickOpenMeme : undefined}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <BottomButtons meme={meme} />
+        </Grid>
+      </ContentGridContainer>
+    </>
   );
 }
 

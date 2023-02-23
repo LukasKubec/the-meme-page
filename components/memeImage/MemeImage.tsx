@@ -3,7 +3,7 @@ import { StaticImageWithAlt } from "@/programming memes";
 import { useMediaQuery, useTheme } from "@mui/material";
 
 interface MemeImageProps {
-  meme: StaticImageWithAlt | undefined;
+  meme?: StaticImageWithAlt;
   onClick?: () => void;
 }
 

@@ -34,11 +34,9 @@ const useMeme = <T>({ data }: UseMemeProps<T>): UseMeme<T> => {
   }
 
   useEffect(() => {
-    return () => {
-      if(!meme) {
-        setRandomMeme();
-      }
-    };
+    if(!meme) {
+      setRandomMeme();
+    }
   }, [meme]);
 
 

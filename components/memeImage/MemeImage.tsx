@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { StaticImageWithAlt } from "@/programming memes";
 import { useMediaQuery, useTheme } from "@mui/material";
-import { useSwipe } from "@/lib";
 
 interface MemeImageProps {
   meme: StaticImageWithAlt | undefined;
@@ -25,6 +24,7 @@ const MemeImage = ({ meme, onClick }: MemeImageProps): JSX.Element => {
             height: "auto",
           }}
           onClick={onClick}
+          placeholder="blur"
         />
       )}
     </>

@@ -24,7 +24,6 @@ const MemeImage = ({ meme, onClick }: MemeImageProps): JSX.Element => {
             height: "auto",
           }}
           onClick={onClick}
-          placeholder="blur"
         />
       )}
     </>

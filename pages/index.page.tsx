@@ -1,5 +1,5 @@
 import { Button, Grid, useMediaQuery, useTheme } from "@mui/material";
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import { loadMemes, StaticImageWithAlt } from "@/programming memes";
 import { useMeme, useSwipe } from "@/lib";
 import { ContentGridContainer, BottomButtons, MemeImage } from "@/components";
@@ -79,7 +79,7 @@ export default function Home({ memes }: HomeProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const memes = loadMemes();
   return {
     props: {

@@ -4,7 +4,11 @@ import { loadMemes, StaticImageWithAlt } from "@/programming memes";
 import { useMeme, useSwipe } from "@/lib";
 import { ContentGridContainer, BottomButtons, MemeImage } from "@/components";
 import { useEffect } from "react";
-import { SwipeOutlined } from "@mui/icons-material";
+import {
+  KeyboardAltOutlined,
+  KeyboardArrowRightOutlined,
+  SwipeOutlined,
+} from "@mui/icons-material";
 
 interface HomeProps {
   memes: StaticImageWithAlt[];
@@ -42,13 +46,22 @@ export default function Home({ memes }: HomeProps) {
       <ContentGridContainer>
         <Grid item xs={12}>
           <Button variant="contained" size="large" onClick={setRandomMeme}>
-            Random meme!{" "}
-            {matchesSm && (
+            Random meme!
+            {matchesSm ? (
               <SwipeOutlined
                 sx={{
                   marginLeft: "0.5rem",
                 }}
               />
+            ) : (
+              <>
+                <KeyboardAltOutlined
+                  sx={{
+                    marginLeft: "0.5rem",
+                  }}
+                />
+                <KeyboardArrowRightOutlined />
+              </>
             )}
           </Button>
         </Grid>

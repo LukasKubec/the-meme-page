@@ -7,7 +7,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "@/styles/globals.css";
 import { darkTheme } from "@/lib";
-import { MainHeader } from "@/components";
+import { ContentGridContainer, MainHeader } from "@/components";
 import Head from "next/head";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -19,8 +19,10 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <Container maxWidth="lg">
-          <MainHeader />
-          <Component {...pageProps} />
+          <ContentGridContainer>
+            <MainHeader />
+            <Component {...pageProps} />
+          </ContentGridContainer>
         </Container>
       </ThemeProvider>
     </>

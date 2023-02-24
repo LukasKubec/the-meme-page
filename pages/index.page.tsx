@@ -2,7 +2,7 @@ import { Button, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { GetStaticProps } from "next";
 import { loadMemes, StaticImageWithAlt } from "@/programming memes";
 import { useMeme, useSwipe } from "@/lib";
-import { ContentGridContainer, BottomButtons, MemeImage } from "@/components";
+import { BottomButtons, MemeImage } from "@/components";
 import { useEffect } from "react";
 import {
   KeyboardAltOutlined,
@@ -43,38 +43,36 @@ export default function Home({ memes }: HomeProps) {
 
   return (
     <>
-      <ContentGridContainer>
-        <Grid item xs={12}>
-          <Button variant="contained" size="large" onClick={setRandomMeme}>
-            Random meme!
-            {matchesSm ? (
-              <SwipeOutlined
+      <Grid item xs={12}>
+        <Button variant="contained" size="large" onClick={setRandomMeme}>
+          Random meme!
+          {matchesSm ? (
+            <SwipeOutlined
+              sx={{
+                marginLeft: "0.5rem",
+              }}
+            />
+          ) : (
+            <>
+              <KeyboardAltOutlined
                 sx={{
                   marginLeft: "0.5rem",
                 }}
               />
-            ) : (
-              <>
-                <KeyboardAltOutlined
-                  sx={{
-                    marginLeft: "0.5rem",
-                  }}
-                />
-                <KeyboardArrowRightOutlined />
-              </>
-            )}
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <MemeImage
-            meme={meme}
-            onClick={matchesSm ? onClickOpenMeme : undefined}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <BottomButtons meme={meme} />
-        </Grid>
-      </ContentGridContainer>
+              <KeyboardArrowRightOutlined />
+            </>
+          )}
+        </Button>
+      </Grid>
+      <Grid item xs={12}>
+        <MemeImage
+          meme={meme}
+          onClick={matchesSm ? onClickOpenMeme : undefined}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <BottomButtons meme={meme} />
+      </Grid>
     </>
   );
 }

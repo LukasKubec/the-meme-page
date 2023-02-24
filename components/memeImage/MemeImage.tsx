@@ -19,7 +19,7 @@ const MemeImage = ({ meme, onClick }: MemeImageProps): JSX.Element => {
           alt={meme.alt}
           style={{
             maxWidth: "90vw",
-            maxHeight: matchesSm ? "60vh" : "80vh",
+            maxHeight: matchesSm ? "60vh" : "78vh",
             width: "auto",
             height: "auto",
           }}

@@ -1,7 +1,6 @@
 import { StaticImageWithAlt } from "@/programming memes";
 import useDownloader from "react-use-downloader";
 import { Box, Button, useMediaQuery, useTheme } from "@mui/material";
-import { useEffect } from "react";
 
 interface DownloadButtonProps {
   meme?: StaticImageWithAlt;
@@ -12,12 +11,6 @@ const BottomButtons = ({ meme }: DownloadButtonProps): JSX.Element => {
   const theme = useTheme();
   const matchesSm = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const downloadMemeKeyListener = async (event: KeyboardEvent) => {
-    if (event.key === "ArrowDown" && meme) {
-      await download(meme.src, `${meme?.alt}.${meme?.extension}`);
-    }
-  };
-
   const copyToClipboard = async () => {
     if (meme) {
       await navigator.clipboard.writeText(
@@ -25,10 +18,6 @@ const BottomButtons = ({ meme }: DownloadButtonProps): JSX.Element => {
       );
     }
   };
-
-  useEffect(() => {
-    window.addEventListener("keydown", downloadMemeKeyListener);
-  }, []);
 
   return (
     <>

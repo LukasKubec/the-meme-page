@@ -18,12 +18,13 @@ export interface MenuItemProps {
   href: string;
   label: string;
   icon: JSX.Element;
+  onClick?: () => void;
 }
 
-export const MenuItem = ({ href, label, icon }: MenuItemProps) => {
+export const MenuItem = ({ href, label, icon, onClick }: MenuItemProps) => {
   return (
       <MenuLink href={href}>
-        <ListItemButton>
+        <ListItemButton onClick={onClick}>
           <ListItemIcon>{icon}</ListItemIcon>
           <ListItemText primary={label} />
         </ListItemButton>

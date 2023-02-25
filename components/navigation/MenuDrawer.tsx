@@ -48,6 +48,7 @@ export const MenuDrawer = (): JSX.Element => {
               href={item.href}
               label={item.label}
               icon={item.icon}
+              onClick={closeNavigation}
             />
           ))}
         </Box>

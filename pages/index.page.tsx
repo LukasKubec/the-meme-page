@@ -1,14 +1,8 @@
-import { Button, Grid, useMediaQuery, useTheme } from "@mui/material";
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
 import { GetStaticProps } from "next";
 import { loadMemes, StaticImageWithAlt } from "@/programming memes";
-import { useMeme, useNavigationContext, useSwipe } from "@/lib";
-import { BottomButtons, MemeImage } from "@/components";
-import { useEffect } from "react";
-import {
-  KeyboardAltOutlined,
-  KeyboardArrowRightOutlined,
-  SwipeOutlined,
-} from "@mui/icons-material";
+import { useArrowKeyListener, useMeme, useNavigationContext, useSwipe } from "@/lib";
+import { BottomButtons, MemeImage, RandomButton } from "@/components";
 
 interface HomeProps {
   memes: StaticImageWithAlt[];
@@ -24,19 +18,13 @@ export default function Home({ memes }: HomeProps) {
     onSwipeRight: setRandomMeme,
     onSwipeLeft: setRandomMeme,
   });
+  useArrowKeyListener({
+    onRightArrow: setRandomMeme,
+  })
 
   const theme = useTheme();
   const matchesSm = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const setRandomListener = (event: KeyboardEvent) => {
-    if (event.key === "ArrowRight") {
-      setRandomMeme();
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("keydown", setRandomListener);
-  }, []);
 
   const onClickOpenMeme = () => {
     window.open(meme?.src, "_blank");

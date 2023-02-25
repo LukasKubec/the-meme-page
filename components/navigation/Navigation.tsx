@@ -22,11 +22,11 @@ const Navigation = () => {
   const handleOpen = () => setIsOpen(true);
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" color="transparent">
       <Toolbar>
         <Grid container direction="row" alignItems="center">
           <Grid item md={12} xs={11}>
-            <Typography variant="h1" component="h1">
+            <Typography variant="h1" component="h1" align={matchesMd ? "left" : "center"}>
               Memes!
             </Typography>
           </Grid>

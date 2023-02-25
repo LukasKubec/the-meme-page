@@ -21,7 +21,11 @@ const MemeImage = ({ meme, onClick }: MemeImageProps): JSX.Element => {
             width: "auto",
             height: "auto",
             maxWidth: meme.width > meme.height ? "100%" : "auto",
-            maxHeight: matchesSm ? meme.height > (window.innerHeight * 0.60) ? "60vh" : "78vh" : "78vh",
+            maxHeight: matchesSm
+              ? meme.height > window.innerHeight * 0.6
+                ? "60vh"
+                : "78vh"
+              : "78vh",
           }}
           onClick={onClick}
           title={meme.alt}

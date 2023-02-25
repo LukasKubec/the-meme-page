@@ -5,8 +5,6 @@ interface OpenMenuButtonProps {
   setIsOpen: () => void;
 }
 
-
-
 export const OpenMenuButton = ({ setIsOpen }: OpenMenuButtonProps): JSX.Element => {
   return (
     <MenuIconButton

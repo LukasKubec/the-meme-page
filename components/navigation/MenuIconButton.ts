@@ -1,8 +1,8 @@
 import { IconButton, IconButtonProps, styled, useMediaQuery } from "@mui/material";
 
 export const MenuIconButton = styled(IconButton)<IconButtonProps>(({ theme }) => {
-    const matchesMd = useMediaQuery(theme.breakpoints.down("md"));
+    const matchesLg = useMediaQuery(theme.breakpoints.down("lg"));
     return {
-        display: matchesMd ? "block" : "none",
+        display: matchesLg ? "block" : "none",
     }
 });

@@ -1,7 +1,7 @@
 import { Button, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { GetStaticProps } from "next";
 import { loadMemes, StaticImageWithAlt } from "@/programming memes";
-import { useMeme, useSwipe } from "@/lib";
+import { useMeme, useNavigationContext, useSwipe } from "@/lib";
 import { BottomButtons, MemeImage } from "@/components";
 import { useEffect } from "react";
 import {
@@ -19,6 +19,7 @@ export default function Home({ memes }: HomeProps) {
     data: memes,
   });
 
+  useNavigationContext("Memes!");
   useSwipe({
     onSwipeRight: setRandomMeme,
     onSwipeLeft: setRandomMeme,

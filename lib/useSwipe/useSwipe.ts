@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface UseSwipeParams {
   onSwipeRight?: () => void;
@@ -6,27 +6,29 @@ interface UseSwipeParams {
 }
 
 const useSwipe = ({ onSwipeRight, onSwipeLeft }: UseSwipeParams) => {
-  let touchStartX = 0;
-  let touchEndX = 0;
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   const onRight = (fn?: () => void) => {
-    if (fn && touchStartX < touchEndX) fn();
+    if (fn && touchStartX.current < touchEndX.current) fn();
   };
   const onLeft = (fn?: () => void) => {
-    if (fn && touchStartX > touchEndX) fn();
+    if (fn && touchStartX.current > touchEndX.current) fn();
   };
-
   useEffect(() => {
     if (onSwipeRight || onSwipeLeft) {
       document.addEventListener("touchstart", (e) => {
-        touchStartX = e.changedTouches[0].screenX;
+        touchStartX.current = e.changedTouches[0].screenX;
       });
-
       document.addEventListener("touchend", (e) => {
-        touchEndX = e.changedTouches[0].screenX;
+        touchEndX.current = e.changedTouches[0].screenX;
         onRight(onSwipeRight);
         onLeft(onSwipeLeft);
       });
+    }
+    return () => {
+        document.removeEventListener("touchstart", () => {});
+        document.removeEventListener("touchend", () => {});
     }
   }, []);
 };

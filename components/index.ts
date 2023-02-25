@@ -3,3 +3,4 @@ export * from "./bottomButtons";
 export * from "./contentGridContainer";
 export * from "./navigation";
 export * from "./navigationProvider";
+export * from "./randomButton";

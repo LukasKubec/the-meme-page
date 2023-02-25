@@ -45,25 +45,7 @@ export default function Home({ memes }: HomeProps) {
   return (
     <>
       <Grid item xs={12}>
-        <Button variant="contained" size="large" onClick={setRandomMeme}>
-          Random meme!
-          {matchesSm ? (
-            <SwipeOutlined
-              sx={{
-                marginLeft: "0.5rem",
-              }}
-            />
-          ) : (
-            <>
-              <KeyboardAltOutlined
-                sx={{
-                  marginLeft: "0.5rem",
-                }}
-              />
-              <KeyboardArrowRightOutlined />
-            </>
-          )}
-        </Button>
+        <RandomButton onClick={setRandomMeme} label="Random meme!" />
       </Grid>
       <Grid item xs={12}>
         <MemeImage

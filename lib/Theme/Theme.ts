@@ -1,13 +1,15 @@
-import { createTheme } from "@mui/material";
+import { createTheme, responsiveFontSizes } from "@mui/material";
 
-export const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#913175",
+export const darkTheme = responsiveFontSizes(
+  createTheme({
+    palette: {
+      mode: "dark",
+      primary: {
+        main: "#913175",
+      },
+      secondary: {
+        main: "#CD5888",
+      },
     },
-    secondary: {
-      main: "#CD5888",
-    },
-  },
-});
+  })
+);

@@ -13,6 +13,7 @@ import { useNavigationContext } from "@/lib";
 const NavigationAppBar = styled(AppBar)(({ theme }) => ({
   marginBottom: theme.spacing(1.5),
   boxShadow: "none",
+  marginTop: theme.spacing(1),
 }));
 
 const Navigation = () => {
@@ -38,6 +39,9 @@ const Navigation = () => {
               variant="h1"
               component="h1"
               align={matchesMd ? "left" : "center"}
+              sx={{
+                marginLeft: matchesMd ? 1 : 0,
+              }}
             >
               {header}
             </Typography>

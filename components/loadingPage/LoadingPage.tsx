@@ -1,8 +1,12 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 
-const LoadingPage = (): JSX.Element => {
+interface LoadingPageProps {
+  children: ReactNode;
+}
+
+const LoadingPage = ({ children }: LoadingPageProps): JSX.Element => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -24,7 +28,7 @@ const LoadingPage = (): JSX.Element => {
     };
   });
 
-  return loading ? <CircularProgress color="primary" /> : <></>;
+  return loading ? <CircularProgress color="primary" /> : <>{children}</>;
 };
 
 export { LoadingPage };

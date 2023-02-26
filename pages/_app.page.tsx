@@ -28,8 +28,9 @@ export default function App({ Component, pageProps }: AppProps) {
           <MenuDrawer />
           <ContentGridContainer>
             <Navigation />
-            <LoadingPage />
-            <Component {...pageProps} />
+            <LoadingPage>
+              <Component {...pageProps} />
+            </LoadingPage>
           </ContentGridContainer>
         </NavigationProvider>
       </ThemeProvider>

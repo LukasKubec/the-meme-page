@@ -22,9 +22,10 @@ export interface MenuItemProps {
 }
 
 export const MenuItem = ({ href, label, icon, onClick }: MenuItemProps) => {
+  const selected = typeof window !== "undefined" ? window.location.pathname === href : false;
   return (
       <MenuLink href={href}>
-        <ListItemButton onClick={onClick}>
+        <ListItemButton onClick={onClick} selected={selected}>
           <ListItemIcon>{icon}</ListItemIcon>
           <ListItemText primary={label} />
         </ListItemButton>

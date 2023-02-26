@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { CircularProgress, CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -12,9 +12,9 @@ import {
   Navigation,
   NavigationProvider,
   MenuDrawer,
+  LoadingPage,
 } from "@/components";
 import Head from "next/head";
-import { Suspense } from "react";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -28,9 +28,8 @@ export default function App({ Component, pageProps }: AppProps) {
           <MenuDrawer />
           <ContentGridContainer>
             <Navigation />
-            <Suspense fallback={<CircularProgress color="secondary" />}>
-              <Component {...pageProps} />
-            </Suspense>
+            <LoadingPage />
+            <Component {...pageProps} />
           </ContentGridContainer>
         </NavigationProvider>
       </ThemeProvider>

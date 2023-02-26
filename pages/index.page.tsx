@@ -13,9 +13,15 @@ interface HomeProps {
   memes: StaticImageWithAlt[];
 }
 
+const mapMemeToAlt = (meme: StaticImageWithAlt) => meme.alt;
+const visitedMemePredicate = (meme: StaticImageWithAlt, visited: string[]) =>
+  visited.includes(meme.alt);
+
 export default function Home({ memes }: HomeProps) {
-  const { meme, setRandomMeme, loading } = useMeme<StaticImageWithAlt>({
+  const { meme, setRandomMeme, loading } = useMeme<StaticImageWithAlt, string>({
     data: memes,
+    visitedMapper: mapMemeToAlt,
+    visitedPredicate: visitedMemePredicate,
   });
 
   useNavigationContext("Memes!");

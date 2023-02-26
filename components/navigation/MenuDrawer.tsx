@@ -2,7 +2,11 @@ import { Box, Drawer, useMediaQuery, useTheme } from "@mui/material";
 import { CloseButton } from "./CloseButton";
 import { MenuDivider } from "./MenuDivider";
 import { MenuItem, MenuItemProps } from "./MenuItem";
-import { ChuckNorrisOutlined, MenuCelebrationOutlined } from "./menuIcons";
+import {
+  ChuckNorrisOutlined,
+  InfoOutlinedStyled,
+  MenuCelebrationOutlined,
+} from "./menuIcons";
 import { useNavigationContext } from "@/lib";
 
 export const menuItems: MenuItemProps[] = [
@@ -15,6 +19,11 @@ export const menuItems: MenuItemProps[] = [
     href: "/chuck",
     label: "Chuck Norris Facts",
     icon: <ChuckNorrisOutlined />,
+  },
+  {
+    href: "/about",
+    label: "About",
+    icon: <InfoOutlinedStyled />,
   },
 ];
 
@@ -29,11 +38,11 @@ export const MenuDrawer = (): JSX.Element => {
       open={navigationIsOpen}
       onClose={closeNavigation}
       sx={{
-        height: "calc(100% - 64px)",
+        height: "calc(100% - 96px)",
       }}
       PaperProps={{
         sx: {
-          height: matchesMd ? "13rem" : "8rem",
+          height: matchesMd ? "15rem" : "11rem",
           borderBottom: "1px solid rgba(255, 255, 255, 0.12)",
         },
       }}

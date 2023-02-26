@@ -1,7 +1,12 @@
-import { Grid, useMediaQuery, useTheme } from "@mui/material";
+import { CircularProgress, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { GetStaticProps } from "next";
 import { loadMemes, StaticImageWithAlt } from "@/programming memes";
-import { useArrowKeyListener, useMeme, useNavigationContext, useSwipe } from "@/lib";
+import {
+  useArrowKeyListener,
+  useMeme,
+  useNavigationContext,
+  useSwipe,
+} from "@/lib";
 import { BottomButtons, MemeImage, RandomButton } from "@/components";
 
 interface HomeProps {
@@ -9,7 +14,7 @@ interface HomeProps {
 }
 
 export default function Home({ memes }: HomeProps) {
-  const { meme, setRandomMeme } = useMeme<StaticImageWithAlt>({
+  const { meme, setRandomMeme, loading } = useMeme<StaticImageWithAlt>({
     data: memes,
   });
 
@@ -20,11 +25,10 @@ export default function Home({ memes }: HomeProps) {
   });
   useArrowKeyListener({
     onRightArrow: setRandomMeme,
-  })
+  });
 
   const theme = useTheme();
   const matchesSm = useMediaQuery(theme.breakpoints.down("sm"));
-
 
   const onClickOpenMeme = () => {
     window.open(meme?.src, "_blank");
@@ -36,10 +40,14 @@ export default function Home({ memes }: HomeProps) {
         <RandomButton onClick={setRandomMeme} label="Random meme!" />
       </Grid>
       <Grid item xs={12}>
-        <MemeImage
-          meme={meme}
-          onClick={matchesSm ? onClickOpenMeme : undefined}
-        />
+        {loading ? (
+          <CircularProgress color="secondary" />
+        ) : (
+          <MemeImage
+            meme={meme}
+            onClick={matchesSm ? onClickOpenMeme : undefined}
+          />
+        )}
       </Grid>
       <Grid item xs={12}>
         <BottomButtons meme={meme} />

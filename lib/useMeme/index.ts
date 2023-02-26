@@ -1,3 +1,3 @@
-import { useMeme } from "@/lib/useMeme/useMeme";
+import { useMeme } from "./useMeme";
 
 export { useMeme };

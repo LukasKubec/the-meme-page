@@ -1,11 +1,6 @@
-import { useEffect, useState } from "react";
 import { ChuckApiResponse } from "@/types";
-import { fetchChuck } from "./fetchChuck";
-
-interface UseFetchChuckApiParams {
-  initialFact?: ChuckApiResponse;
-  initialApiError?: boolean;
-}
+import { fetcher } from "./fetchChuck";
+import useSWR from "swr";
 
 interface UseFetchChuckApi {
   fact?: string;
@@ -14,36 +9,15 @@ interface UseFetchChuckApi {
   setRandomFact: () => void;
 }
 
-export const useFetchChuckApi = ({
-  initialFact,
-  initialApiError,
-}: UseFetchChuckApiParams): UseFetchChuckApi => {
-  const [fact, setFact] = useState<string | undefined>(
-    initialFact?.value || undefined
-  );
-  const [error, setError] = useState<boolean>(!!initialApiError);
-  const [loading, setLoading] = useState<boolean>(false);
+export const useFetchChuckApi = (): UseFetchChuckApi => {
+  const { data, error, isLoading, mutate } = useSWR<ChuckApiResponse>("https://api.chucknorris.io/jokes/random", fetcher);
 
-  const setRandomFact = () => setFact(undefined);
+  const setRandomFact = () => mutate(data);
 
-  useEffect(() => {
-    if (!fact && !error) {
-      (async () => {
-        try {
-          setLoading(true);
-          const response = await fetchChuck();
-          setFact(response.value);
-        } catch (error) {
-          console.error(error);
-          setError(true);
-          setFact(undefined);
-        } finally {
-          setLoading(false);
-        }
-      })();
-    }
-    return () => setLoading(false);
-  }, [fact, error]);
-
-  return { fact, error, loading, setRandomFact };
+  return {
+    fact: data?.value,
+    error: !!error,
+    loading: isLoading,
+    setRandomFact,
+  };
 };

@@ -1,12 +1,9 @@
 import {
-  fetchChuck,
   useArrowKeyListener,
   useFetchChuckApi,
   useNavigationContext,
   useSwipe,
 } from "@/lib";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { ChuckApiResponse } from "@/types";
 import {
   Alert,
   AlertTitle,
@@ -17,20 +14,10 @@ import {
 import { RandomButton } from "@/components";
 import Link from "next/link";
 
-interface ChuckProps {
-  initialFact?: ChuckApiResponse;
-  initialApiError?: boolean;
-}
-
-const Chuck = ({
-  data: { initialFact, initialApiError },
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Chuck = () => {
   useNavigationContext("Chuck Facts!");
 
-  const { error, fact, loading, setRandomFact } = useFetchChuckApi({
-    initialFact,
-    initialApiError,
-  });
+  const { error, fact, loading, setRandomFact } = useFetchChuckApi();
 
   useArrowKeyListener({
     onRightArrow: setRandomFact,
@@ -40,7 +27,7 @@ const Chuck = ({
     onSwipeLeft: setRandomFact,
   });
 
-  if (initialApiError || error || !initialFact) {
+  if (error) {
     return (
       <Grid item xs={12}>
         <Alert severity="error">
@@ -76,30 +63,6 @@ const Chuck = ({
       </Grid>
     </>
   );
-};
-
-export const getServerSideProps: GetServerSideProps<{
-  data: ChuckProps;
-}> = async () => {
-  try {
-    const response = await fetchChuck();
-    return {
-      props: {
-        data: {
-          initialFact: response,
-        },
-      },
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      props: {
-        data: {
-          initialApiError: true,
-        },
-      },
-    };
-  }
 };
 
 export default Chuck;

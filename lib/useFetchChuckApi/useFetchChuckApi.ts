@@ -9,8 +9,10 @@ interface UseFetchChuckApi {
   setRandomFact: () => void;
 }
 
+const api = "https://api.chucknorris.io/jokes/random";
+
 export const useFetchChuckApi = (): UseFetchChuckApi => {
-  const { data, error, isLoading, mutate } = useSWR<ChuckApiResponse>("https://api.chucknorris.io/jokes/random", fetcher);
+  const { data, error, isLoading, mutate } = useSWR<ChuckApiResponse>(api, fetcher);
 
   const setRandomFact = () => mutate(data);
 

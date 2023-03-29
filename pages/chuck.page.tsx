@@ -1,5 +1,5 @@
 import {
-  useArrowKeyListener,
+  useKeyListener,
   useFetchChuckApi,
   useNavigationContext,
   useSwipe,
@@ -19,8 +19,10 @@ const Chuck = () => {
 
   const { error, fact, loading, setRandomFact } = useFetchChuckApi();
 
-  useArrowKeyListener({
-    onRightArrow: setRandomFact,
+  useKeyListener({
+    keyMap: {
+      ArrowRight: setRandomFact,
+    }
   });
   useSwipe({
     onSwipeRight: setRandomFact,

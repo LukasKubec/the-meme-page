@@ -2,7 +2,7 @@ import { CircularProgress, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { GetStaticProps } from "next";
 import { loadMemes, StaticImageWithAlt } from "@/programming memes";
 import {
-  useArrowKeyListener,
+  useKeyListener,
   useMeme,
   useNavigationContext,
   useSwipe,
@@ -29,8 +29,10 @@ export default function Home({ memes }: HomeProps) {
     onSwipeRight: setRandomMeme,
     onSwipeLeft: setRandomMeme,
   });
-  useArrowKeyListener({
-    onRightArrow: setRandomMeme,
+  useKeyListener({
+    keyMap: {
+      ArrowRight: setRandomMeme,
+    }
   });
 
   const theme = useTheme();

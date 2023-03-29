@@ -3,4 +3,4 @@ export * from "./Theme";
 export * from "./useSwipe";
 export * from "./useNavigationContext";
 export * from "./useFetchChuckApi";
-export * from "./useArrowKeyListener";
+export * from "./useKeyListener";

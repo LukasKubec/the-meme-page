@@ -33,7 +33,7 @@ export default function Home({ memes }: HomeProps) {
   useKeyListener({
     keyMap: {
       ArrowRight: setRandomMeme,
-    }
+    },
   });
 
   const theme = useTheme();

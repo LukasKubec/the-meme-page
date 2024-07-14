@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 
+type VisitedPredicate<T, V> = (item: T, visited: V[]) => boolean;
+type VisitedMapper<T, V> = (item: T) => V;
+
 interface UseMemeProps<T, V> {
   data: T[];
-  visitedPredicate?: (item: T, visited: V[]) => boolean;
-  visitedMapper?: (item: T) => V;
+  visitedPredicate?: VisitedPredicate<T, V>;
+  visitedMapper?: VisitedMapper<T, V>;
 }
 
 interface UseMeme<T> {
@@ -21,9 +24,11 @@ const useMeme = <T, V>({
   const [loading, setLoading] = useState<boolean>(false);
   const [visited, setVisited] = useState<V[]>([]);
 
-  const setRandomMeme = () => {
-    setLoading(true);
-    if (visitedPredicate && data.every((meme) => visitedPredicate(meme, visited))) {
+  const setRandomMeme = async () => {
+    if (
+      visitedPredicate &&
+      data.every((meme) => visitedPredicate(meme, visited))
+    ) {
       setVisited([]);
     }
 
@@ -32,20 +37,21 @@ const useMeme = <T, V>({
       randomMeme === meme ||
       (visitedPredicate && visitedPredicate(randomMeme, visited))
     ) {
-      setRandomMeme();
+      setLoading(true);
+      await setRandomMeme();
+      debugger;
+      setLoading(false);
     } else {
       if (visitedMapper) {
         setVisited([...visited, visitedMapper(randomMeme)]);
       }
       setMeme(randomMeme);
     }
-
-    setLoading(false);
   };
 
   useEffect(() => {
     if (!meme) {
-      setRandomMeme();
+      void setRandomMeme();
     }
   }, [meme]);
 

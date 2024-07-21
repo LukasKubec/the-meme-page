@@ -16,12 +16,13 @@ jest.mock("react-use-downloader", () => {
 describe("BottomButtons Component", () => {
 
   beforeEach(() => {
-    if (typeof navigator.clipboard === 'undefined') {
+    if (!navigator.clipboard.writeText) {
       Object.defineProperty(navigator, 'clipboard', {
         value: {
-          writeText: () => {},
+          writeText: jest.fn(() => Promise.resolve()),
         },
         writable: true,
+        configurable: true,
       });
     }
 

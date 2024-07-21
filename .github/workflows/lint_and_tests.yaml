@@ -2,13 +2,28 @@ name: Lint and Tests
 
 on:
   push:
+  pull_request:
+    branches:
+      - main
 
 jobs:
+  pre_job:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          concurrent_skipping: "same_content"
+          skip_after_successful_duplicate: true
+          do_not_skip: '["pull_request"]'
   lint_and_tests:
+    needs: pre_job
+    if: needs.pre_job.outputs.should_skip == 'false'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -21,3 +36,6 @@ jobs:
         run: npm run lint
       - name: Test
         run: npm run test:ci
+      - name: Build
+        if: ${{ github.event_name == 'pull_request' }}
+        run: npm run build

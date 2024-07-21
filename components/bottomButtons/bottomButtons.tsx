@@ -1,7 +1,8 @@
 import { StaticImageWithAlt } from "@/programming memes";
 import useDownloader from "react-use-downloader";
-import { Box, Button, useMediaQuery, useTheme } from "@mui/material";
+import {Alert, AlertTitle, Box, Button, useMediaQuery, useTheme} from "@mui/material";
 import { RandomButton } from "../randomButton";
+import {useState} from "react";
 
 interface DownloadButtonProps {
   meme: StaticImageWithAlt;
@@ -14,7 +15,9 @@ const BottomButtons = ({
 }: DownloadButtonProps): JSX.Element => {
   const theme = useTheme();
   const matchesSm = useMediaQuery(theme.breakpoints.down("sm"));
+  const [clipBoardError, setClipBoardError] = useState(false);
   const { download } = useDownloader();
+
   const copyToClipboard = async () => {
     if (meme) {
       try {
@@ -28,6 +31,7 @@ const BottomButtons = ({
         console.log("Image copied to clipboard");
       } catch (error) {
         console.error("Failed to copy image: ", error);
+        setClipBoardError(true);
       }
     }
   };
@@ -62,6 +66,12 @@ const BottomButtons = ({
           Copy
         </Button>
       </Box>
+      {clipBoardError && (
+          <Alert severity="error">
+            <AlertTitle>Error</AlertTitle>
+            Failed to copy image to clipboard.
+          </Alert>
+      )}
       <RandomButton onClick={setRandomMeme} label="Random meme!" fullWidth />
     </Box>
   );

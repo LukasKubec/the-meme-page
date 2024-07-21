@@ -1,12 +1,13 @@
-import { CircularProgress, Grid, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { GetStaticProps } from "next";
 import { loadMemes, StaticImageWithAlt } from "@/programming memes";
-import {
-  useKeyListener,
-  useMeme,
-  useNavigationContext,
-  useSwipe,
-} from "@/lib";
+import { useKeyListener, useMeme, useNavigationContext, useSwipe } from "@/lib";
 import { BottomButtons, MemeImage, RandomButton } from "@/components";
 
 interface HomeProps {
@@ -32,7 +33,7 @@ export default function Home({ memes }: HomeProps) {
   useKeyListener({
     keyMap: {
       ArrowRight: setRandomMeme,
-    }
+    },
   });
 
   const theme = useTheme();
@@ -57,9 +58,17 @@ export default function Home({ memes }: HomeProps) {
           />
         )}
       </Grid>
-      <Grid item xs={12}>
-        <BottomButtons meme={meme} />
-      </Grid>
+      <Box
+        sx={
+          matchesSm
+            ? { position: "fixed", bottom: 0, width: "100%", pb: 1 }
+            : {}
+        }
+      >
+        <Grid item xs={12}>
+          <BottomButtons meme={meme} />
+        </Grid>
+      </Box>
     </>
   );
 }

@@ -24,15 +24,12 @@ const MemeImage = ({
           style={{
             width: "auto",
             height: "auto",
-            maxWidth: meme.width > meme.height ? "100%" : "auto",
-            maxHeight: matchesSm
-              ? meme.height > window.innerHeight * 0.6
-                ? "60vh"
-                : "78vh"
-              : "78vh",
+            maxWidth: "100vw",
+            maxHeight: "60vh",
           }}
           onClick={onClick}
           title={meme.alt}
+          priority
         />
       )}
     </Box>

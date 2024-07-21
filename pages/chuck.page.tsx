@@ -1,16 +1,10 @@
 import {
-  useKeyListener,
   useFetchChuckApi,
+  useKeyListener,
   useNavigationContext,
   useSwipe,
 } from "@/lib";
-import {
-  Alert,
-  AlertTitle,
-  CircularProgress,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Alert, AlertTitle, CircularProgress, Typography } from "@mui/material";
 import { RandomButton } from "@/components";
 import Link from "next/link";
 
@@ -22,7 +16,7 @@ const Chuck = () => {
   useKeyListener({
     keyMap: {
       ArrowRight: setRandomFact,
-    }
+    },
   });
   useSwipe({
     onSwipeRight: setRandomFact,
@@ -31,38 +25,25 @@ const Chuck = () => {
 
   if (error) {
     return (
-      <Grid item xs={12}>
-        <Alert severity="error">
-          <AlertTitle>Error</AlertTitle>
-          {/* eslint-disable-next-line react/no-unescaped-entities */}
-          Chuck Norris API never fails, it's your visit that's wrong.
-        </Alert>
-      </Grid>
+      <Alert severity="error">
+        <AlertTitle>Error</AlertTitle>
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
+        Chuck Norris API never fails, it's your visit that's wrong.
+      </Alert>
     );
   }
 
   return (
     <>
-      <Grid item xs={12}>
-        <RandomButton onClick={setRandomFact} label="Random Chuck fact!" />
-      </Grid>
-
-      <Grid item xs={12}>
-        <Typography
-          paddingTop={5}
-          paddingLeft={1}
-          paddingRight={1}
-          textAlign="center"
-        >
-          {loading ? <CircularProgress color="secondary" /> : fact}
-        </Typography>
-
-        <Typography textAlign="center" paddingTop={5}>
-          <Link href="https://api.chucknorris.io/" target="_blank">
-            Powered by Chuck Norris Api.
-          </Link>
-        </Typography>
-      </Grid>
+      <Typography textAlign="center">
+        {loading ? <CircularProgress color="secondary" /> : fact}
+      </Typography>
+      <RandomButton onClick={setRandomFact} label="Random Chuck fact!" />
+      <Typography textAlign="center" paddingTop={5}>
+        <Link href="https://api.chucknorris.io/" target="_blank">
+          Powered by Chuck Norris Api.
+        </Link>
+      </Typography>
     </>
   );
 };

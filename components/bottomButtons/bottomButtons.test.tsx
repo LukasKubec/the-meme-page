@@ -1,71 +1,148 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { BottomButtons } from "./bottomButtons";
+import { StaticImageWithAlt } from "../../programming memes";
+import { act } from "react-dom/test-utils";
 
 const downloadSpy = jest.fn();
-jest.mock("react-use-downloader", () => {
-  return {
-    __esModule: true,
-    default: () => ({
-      download: jest.fn((src, filename) => downloadSpy(src, filename)),
-    }),
-  };
-});
+jest.mock("react-use-downloader", () => ({
+  __esModule: true,
+  default: () => ({
+    download: jest.fn((src, filename) => downloadSpy(src, filename)),
+  }),
+}));
 
 describe("BottomButtons Component", () => {
-
-  beforeEach(() => {
-    if (!navigator.clipboard.writeText) {
-      Object.defineProperty(navigator, 'clipboard', {
-        value: {
-          writeText: jest.fn(() => Promise.resolve()),
-        },
-        writable: true,
-        configurable: true,
-      });
-    }
-
-    jest.spyOn(navigator.clipboard, 'writeText').mockImplementation(() => Promise.resolve());
-  });
-
-  const mockMeme = {
+  const mockMeme: StaticImageWithAlt = {
     src: "/path/to/meme.png",
     alt: "Funny Meme",
     extension: "png",
-    height: 100, // Example value, adjust as needed
-    width: 100, // Example value, adjust as needed
+    height: 100,
+    width: 100,
   };
+  let clipboardSpy: jest.SpyInstance;
 
-  it("renders download and copy path buttons when meme is provided", () => {
-    render(<BottomButtons meme={mockMeme} />);
-    expect(screen.getByText("Download")).toBeInTheDocument();
-    expect(screen.getByText("Copy path to clipboard")).toBeInTheDocument();
+  beforeEach(() => {
+    Object.defineProperty(navigator, "clipboard", {
+      value: {
+        write: jest.fn(() => Promise.resolve()),
+      },
+      writable: true,
+      configurable: true,
+    });
+
+    global.fetch = jest.fn().mockResolvedValue({
+      blob: () =>
+        Promise.resolve(new Blob(["image content"], { type: "image/jpeg" })),
+    });
+
+    global.ClipboardItem = jest.fn();
+
+    clipboardSpy = jest.spyOn(navigator.clipboard, "write");
   });
 
-  it("does not render buttons when meme is not provided", () => {
-    render(<BottomButtons />);
-    expect(screen.queryByText("Download")).not.toBeInTheDocument();
-    expect(
-      screen.queryByText("Copy path to clipboard")
-    ).not.toBeInTheDocument();
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+  });
+
+  const renderBottomButtons = (
+    meme: StaticImageWithAlt,
+    setRandomMemeMock?: () => void | jest.Mock
+  ) =>
+    render(
+      <BottomButtons
+        meme={meme}
+        setRandomMeme={setRandomMemeMock || jest.fn()}
+      />
+    );
+
+  it("renders download and copy path buttons when meme is provided", () => {
+    renderBottomButtons(mockMeme);
+    expect(screen.getByText("Download")).toBeInTheDocument();
+    expect(screen.getByText("Copy")).toBeInTheDocument();
   });
 
   it("calls download function with correct parameters when download button is clicked", async () => {
-    render(<BottomButtons meme={mockMeme} />);
-    fireEvent.click(screen.getByText("Download"));
+    renderBottomButtons(mockMeme);
+
+    await act(async () => {
+      fireEvent.click(screen.getByText("Download"));
+    });
+
     expect(downloadSpy).toHaveBeenCalledWith(
       mockMeme.src,
       `${mockMeme.alt}.${mockMeme.extension}`
     );
   });
 
-  it("copies meme path to clipboard when copy path button is clicked", async () => {
-    const clipboardSpy = jest.spyOn(navigator.clipboard, "writeText");
-    render(<BottomButtons meme={mockMeme} />);
-    fireEvent.click(screen.getByText("Copy path to clipboard"));
-    expect(clipboardSpy).toHaveBeenCalledWith(
-      `${window.location.origin}${mockMeme.src}`
+  it("copies meme to clipboard when copy button is clicked", async () => {
+    renderBottomButtons(mockMeme);
+
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: /copy image to clipboard/i })
+      );
+    });
+
+    expect(clipboardSpy).toHaveBeenCalled();
+  });
+
+  it("should call setRandomMeme when RandomButton is clicked", () => {
+    const setRandomMemeMock = jest.fn();
+    renderBottomButtons(mockMeme, setRandomMemeMock);
+
+    const randomButton = screen.getByText("Random meme!");
+    act(() => {
+      fireEvent.click(randomButton);
+    });
+
+    expect(setRandomMemeMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("should display error message when copy to clipboard fails", async () => {
+    clipboardSpy.mockRejectedValueOnce(new Error("Copy failed"));
+    renderBottomButtons(mockMeme);
+    act(() => {
+      fireEvent.click(screen.getByText("Copy"));
+    });
+    await waitFor(() =>
+      expect(
+        screen.getByText("Failed to copy image to clipboard.")
+      ).toBeInTheDocument()
+    );
+  });
+
+  it("should reset error message when copy to clipboard succeeds after failure", async () => {
+    clipboardSpy
+      .mockRejectedValueOnce(new Error("Copy failed"))
+      .mockResolvedValueOnce({});
+
+    renderBottomButtons(mockMeme);
+
+    // Attempt to copy, expect failure
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: /copy image to clipboard/i })
+      );
+    });
+    await waitFor(() =>
+      expect(
+        screen.getByText("Failed to copy image to clipboard.")
+      ).toBeInTheDocument()
+    );
+
+    // Attempt to copy again, expect success
+    await act(async () => {
+      fireEvent.click(
+        screen.getByRole("button", { name: /copy image to clipboard/i })
+      );
+    });
+    await waitFor(() =>
+      expect(
+        screen.queryByText("Failed to copy image to clipboard.")
+      ).toBeNull()
     );
   });
 });

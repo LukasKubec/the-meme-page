@@ -1,4 +1,4 @@
-import { Box, Drawer, useMediaQuery, useTheme } from "@mui/material";
+import { Drawer, useMediaQuery, useTheme } from "@mui/material";
 import { CloseButton } from "./CloseButton";
 import { MenuDivider } from "./MenuDivider";
 import { MenuItem, MenuItemProps } from "./MenuItem";
@@ -47,10 +47,8 @@ export const MenuDrawer = (): JSX.Element => {
         },
       }}
     >
-      <Box>
         {matchesMd && <CloseButton onClick={closeNavigation} />}
         <MenuDivider />
-        <Box>
           {menuItems.map((item) => (
             <MenuItem
               key={item.href}
@@ -60,8 +58,6 @@ export const MenuDrawer = (): JSX.Element => {
               onClick={closeNavigation}
             />
           ))}
-        </Box>
-      </Box>
     </Drawer>
   );
 };

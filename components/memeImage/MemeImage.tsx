@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { StaticImageWithAlt } from "@/programming memes";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 
 interface MemeImageProps {
   meme?: StaticImageWithAlt;
@@ -8,11 +8,8 @@ interface MemeImageProps {
 }
 
 const MemeImage = ({ meme, onClick }: MemeImageProps): JSX.Element => {
-  const theme = useTheme();
-  const matchesSm = useMediaQuery(theme.breakpoints.down("sm"));
-
   return (
-    <>
+    <Box display="flex" flexDirection="column">
       {meme && (
         <Image
           src={meme}
@@ -20,18 +17,15 @@ const MemeImage = ({ meme, onClick }: MemeImageProps): JSX.Element => {
           style={{
             width: "auto",
             height: "auto",
-            maxWidth: meme.width > meme.height ? "100%" : "auto",
-            maxHeight: matchesSm
-              ? meme.height > window.innerHeight * 0.6
-                ? "60vh"
-                : "78vh"
-              : "78vh",
+            maxWidth: "100vw",
+            maxHeight: "60vh",
           }}
           onClick={onClick}
           title={meme.alt}
+          priority
         />
       )}
-    </>
+    </Box>
   );
 };
 

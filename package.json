@@ -10,7 +10,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:prod": "cross-env PLAYWRIGHT_DEV=false npx playwright test",
-    "test:dev": "cross-env PLAYWRIGHT_DEV=true npx playwright test"
+    "test:dev": "cross-env PLAYWRIGHT_DEV=true npx playwright test",
+    "test:ci": "jest --ci"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",

@@ -41,8 +41,7 @@ jobs:
           envs: REGISTRY=$REGISTRY IMAGE_NAME=$IMAGE_NAME
           script: |
             # Login to registry
-            # Login to registry
-            echo ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} | docker login -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin registry.digitalocean.com
+            echo ${{ secrets.DO_AT }} | docker login -u ${{ secrets.DO_AT }} --password-stdin registry.digitalocean.com
             # Stop running container 
             docker stop $(echo $IMAGE_NAME)
             # Remove old container

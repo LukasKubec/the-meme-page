@@ -22,7 +22,7 @@ const BottomButtons = ({
 }: DownloadButtonProps): JSX.Element => {
   const theme = useTheme();
   const matchesSm = useMediaQuery(theme.breakpoints.down("sm"));
-  const [clipBoardError, setClipBoardError] = useState(false);
+  const [buttonError, setButtonError] = useState<undefined | string>(undefined);
   const { download } = useDownloader();
 
   const copyToClipboard = async () => {
@@ -36,9 +36,12 @@ const BottomButtons = ({
           }),
         ]);
         console.log("Image copied to clipboard");
+        if (buttonError) {
+          setButtonError(undefined);
+        }
       } catch (error) {
         console.error("Failed to copy image: ", error);
-        setClipBoardError(true);
+        setButtonError("Failed to copy image to clipboard.");
       }
     }
   };
@@ -60,7 +63,14 @@ const BottomButtons = ({
           variant="outlined"
           size="large"
           color="secondary"
-          onClick={() => download(meme.src, `${meme?.alt}.${meme?.extension}`)}
+          onClick={async () => {
+            try {
+              await download(meme.src, `${meme?.alt}.${meme?.extension}`);
+            } catch (error) {
+              console.error("Failed to download image: ", error);
+              setButtonError("Failed to download image.");
+            }
+          }}
           aria-label="Download image"
         >
           Download
@@ -75,7 +85,7 @@ const BottomButtons = ({
           Copy
         </Button>
       </Box>
-      {clipBoardError && (
+      {buttonError && (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
           Failed to copy image to clipboard.

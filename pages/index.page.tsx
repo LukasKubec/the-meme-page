@@ -39,36 +39,18 @@ export default function Home({ memes }: HomeProps) {
   const theme = useTheme();
   const matchesSm = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const onClickOpenMeme = () => {
-    window.open(meme?.src, "_blank");
-  };
-
   return (
     <>
-      <Grid item xs={12}>
-        <RandomButton onClick={setRandomMeme} label="Random meme!" />
-      </Grid>
-      <Grid item xs={12}>
+      <Box order={matchesSm ? 1 : 2}>
         {loading ? (
-          <CircularProgress color="secondary" />
-        ) : (
-          <MemeImage
-            meme={meme}
-            onClick={matchesSm ? onClickOpenMeme : undefined}
+          <CircularProgress
+            color="secondary"
           />
+        ) : (
+          <MemeImage meme={meme} onClick={setRandomMeme} />
         )}
-      </Grid>
-      <Box
-        sx={
-          matchesSm
-            ? { position: "fixed", bottom: 0, width: "100%", pb: 1 }
-            : {}
-        }
-      >
-        <Grid item xs={12}>
-          <BottomButtons meme={meme} />
-        </Grid>
       </Box>
+      {meme && <BottomButtons meme={meme} setRandomMeme={setRandomMeme} />}
     </>
   );
 }

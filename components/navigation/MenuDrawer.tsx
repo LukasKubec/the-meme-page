@@ -47,10 +47,8 @@ export const MenuDrawer = (): JSX.Element => {
         },
       }}
     >
-      <Box>
         {matchesMd && <CloseButton onClick={closeNavigation} />}
         <MenuDivider />
-        <Box>
           {menuItems.map((item) => (
             <MenuItem
               key={item.href}
@@ -60,8 +58,6 @@ export const MenuDrawer = (): JSX.Element => {
               onClick={closeNavigation}
             />
           ))}
-        </Box>
-      </Box>
     </Drawer>
   );
 };

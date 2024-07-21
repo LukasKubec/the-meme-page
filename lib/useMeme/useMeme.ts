@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 
 type VisitedPredicate<T, V> = (item: T, visited: V[]) => boolean;
 type VisitedMapper<T, V> = (item: T) => V;
@@ -27,16 +27,16 @@ const useMeme = <T, V>({
 
   const setRandomMeme = async () => {
     if (
-        visitedPredicate &&
-        data.every((meme) => visitedPredicate(meme, visited))
+      visitedPredicate &&
+      data.every((meme) => visitedPredicate(meme, visited))
     ) {
       setVisited([]);
     }
 
     const randomMeme = data[Math.floor(Math.random() * data.length)];
     if (
-        randomMeme === meme ||
-        (visitedPredicate && visitedPredicate(randomMeme, visited))
+      randomMeme === meme ||
+      (visitedPredicate && visitedPredicate(randomMeme, visited))
     ) {
       setLoading(true);
       await setRandomMeme();

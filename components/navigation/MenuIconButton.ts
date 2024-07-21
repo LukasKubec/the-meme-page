@@ -1,9 +1,11 @@
-import { IconButton, IconButtonProps, styled, useMediaQuery } from "@mui/material";
+import { IconButton, IconButtonProps, styled } from "@mui/material";
 
-export const MenuIconButton = styled(IconButton)<IconButtonProps>(({ theme }) => {
+export const MenuIconButton = styled(IconButton)<IconButtonProps>(
+  () => {
     return {
-        position: "absolute",
-        right: "2rem",
-        top: "1rem",
-    }
-});
+      position: "absolute",
+      right: "2rem",
+      top: "1rem",
+    };
+  }
+);

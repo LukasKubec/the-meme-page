@@ -1,4 +1,4 @@
-import { Box, Drawer, useMediaQuery, useTheme } from "@mui/material";
+import { Drawer, useMediaQuery, useTheme } from "@mui/material";
 import { CloseButton } from "./CloseButton";
 import { MenuDivider } from "./MenuDivider";
 import { MenuItem, MenuItemProps } from "./MenuItem";

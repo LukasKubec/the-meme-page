@@ -1,21 +1,15 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "@/styles/globals.css";
 import { darkTheme } from "@/lib";
-import {
-  ContentGridContainer,
-  Navigation,
-  NavigationProvider,
-  MenuDrawer,
-  LoadingPage,
-} from "@/components";
+import { Navigation, NavigationProvider, LoadingPage } from "@/components";
 import Head from "next/head";
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from "@vercel/analytics/react";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -26,14 +20,20 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <NavigationProvider>
-          <MenuDrawer />
-          <ContentGridContainer>
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            alignContent="center"
+            justifyContent="space-between"
+            gap={3}
+          >
             <Navigation />
             <LoadingPage>
               <Component {...pageProps} />
               <Analytics />
             </LoadingPage>
-          </ContentGridContainer>
+          </Box>
         </NavigationProvider>
       </ThemeProvider>
     </>

@@ -1,8 +1,15 @@
 import { StaticImageWithAlt } from "@/programming memes";
 import useDownloader from "react-use-downloader";
-import {Alert, AlertTitle, Box, Button, useMediaQuery, useTheme} from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  Button,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { RandomButton } from "../randomButton";
-import {useState} from "react";
+import { useState } from "react";
 
 interface DownloadButtonProps {
   meme: StaticImageWithAlt;
@@ -54,6 +61,7 @@ const BottomButtons = ({
           size="large"
           color="secondary"
           onClick={() => download(meme.src, `${meme?.alt}.${meme?.extension}`)}
+          aria-label="Download image"
         >
           Download
         </Button>
@@ -62,15 +70,16 @@ const BottomButtons = ({
           size="large"
           color="secondary"
           onClick={copyToClipboard}
+          aria-label="Copy image to clipboard"
         >
           Copy
         </Button>
       </Box>
       {clipBoardError && (
-          <Alert severity="error">
-            <AlertTitle>Error</AlertTitle>
-            Failed to copy image to clipboard.
-          </Alert>
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          Failed to copy image to clipboard.
+        </Alert>
       )}
       <RandomButton onClick={setRandomMeme} label="Random meme!" fullWidth />
     </Box>

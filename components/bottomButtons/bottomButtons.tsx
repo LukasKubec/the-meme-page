@@ -17,9 +17,18 @@ const BottomButtons = ({
   const { download } = useDownloader();
   const copyToClipboard = async () => {
     if (meme) {
-      await navigator.clipboard.writeText(
-        `${window.location.origin}${meme.src}`
-      );
+      try {
+        const img = await fetch(meme.src);
+        const imgBlob = await img.blob();
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            [imgBlob.type]: imgBlob,
+          }),
+        ]);
+        console.log("Image copied to clipboard");
+      } catch (error) {
+        console.error("Failed to copy image: ", error);
+      }
     }
   };
 

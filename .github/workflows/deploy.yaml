@@ -38,14 +38,14 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.PK }}
           passphrase: ${{ secrets.PP }}
-          envs: REGISTRY=$REGISTRY IMAGE_NAME=$IMAGE_NAME
+          envs: REGISTRY, IMAGE_NAME
           script: |
             # Login to registry
             echo ${{ secrets.DO_AT }} | docker login -u ${{ secrets.DO_AT }} --password-stdin registry.digitalocean.com
-            # Stop running container 
-            docker stop $(echo $IMAGE_NAME)
-            # Remove old container
-            docker rm $(echo $IMAGE_NAME)
+            # Stop all running containers
+            docker stop $(docker ps -q)
+            # Remove all containers
+            docker rm $(docker ps -a -q)
             # Run a new container from a new image
             docker run -d \
             -p 80:3000 \

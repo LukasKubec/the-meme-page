@@ -40,8 +40,6 @@ jobs:
           passphrase: ${{ secrets.PP }}
           envs: REGISTRY,IMAGE_NAME
           script: |
-            # Login to registry
-            echo ${{ secrets.DO_AT }} | docker login -u ${{ secrets.DO_USER }} --password-stdin registry.digitalocean.com
             # Stop and remove containers only if they exist
             RUNNING_CONTAINERS=$(docker ps -q)
             if [ ! -z "$RUNNING_CONTAINERS" ]; then
@@ -52,7 +50,8 @@ jobs:
               docker rm $STOPPED_CONTAINERS
             fi
             # Run a new container from a new image
-            echo "Pulling image from registry $REGISTRY/$IMAGE_NAME:latest"
+            # Login to registry
+            echo ${{ secrets.DO_AT }} | docker login -u ${{ secrets.DO_USER }} --password-stdin registry.digitalocean.com
             docker pull $REGISTRY/$IMAGE_NAME:latest
             docker run -d \
             -p 80:3000 \

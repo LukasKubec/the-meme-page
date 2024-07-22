@@ -51,7 +51,7 @@ jobs:
             fi
             # Run a new container from a new image
             # Login to registry
-            echo ${{ secrets.DO_AT }} | docker login -u ${{ secrets.DO_USER }} --password-stdin registry.digitalocean.com
+            echo ${{ secrets.DO_AT }} | docker login -u ${{ secrets.DO_AT }} --password-stdin registry.digitalocean.com
             docker pull $REGISTRY/$IMAGE_NAME:latest
             docker run -d \
             -p 80:3000 \

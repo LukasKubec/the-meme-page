@@ -34,14 +34,14 @@ jobs:
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ vars.HOST }}
+          host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.PK }}
           passphrase: ${{ secrets.PP }}
           envs: REGISTRY,IMAGE_NAME
           script: |
             # Login to registry
-            echo ${{ secrets.DO_AT }} | docker login -u ${{ secrets.DO_AT }} --password-stdin registry.digitalocean.com
+            echo ${{ secrets.DO_AT }} | docker login -u ${{ secrets.DO_USER }} --password-stdin registry.digitalocean.com
             # Stop and remove containers only if they exist
             RUNNING_CONTAINERS=$(docker ps -q)
             if [ ! -z "$RUNNING_CONTAINERS" ]; then

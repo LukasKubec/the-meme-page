@@ -10,6 +10,11 @@ env:
   IMAGE_NAME: memes
 
 jobs:
+  pre_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get short SHA
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
   build:
     runs-on: ubuntu-latest
     environment: "AZURE"
@@ -21,16 +26,13 @@ jobs:
           password: ${{ secrets.DOCKERHUB_AT }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Get short SHA
-        id: sha
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           push: true
           tags: |
-            $REPOSITORY/$IMAGE_NAME:${{ steps.sha.outputs.sha_short }}
-            $REPOSITORY/$IMAGE_NAME:latest
+            ${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.sha_short }}
+            ${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -44,7 +46,7 @@ jobs:
         - name: Build and deploy Container App
           uses: azure/container-apps-deploy-action@v1
           with:
-            imageToDeploy: $REPOSITORY/$IMAGE_NAME:${{ github.sha }}
+            imageToDeploy: ${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.sha_short }}
             registryUrl: registry-1.docker.io
             registryUsername: ${{ secrets.DOCKERHUB_USER }}
             registryPassword: ${{ secrets.DOCKERHUB_AT }}

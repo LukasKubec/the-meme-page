@@ -12,7 +12,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    needs: pre_job
     environment: "AZURE"
     steps:
       - uses: actions/checkout@v4

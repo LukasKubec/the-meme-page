@@ -1,4 +1,4 @@
-name: Build Docker Image
+name: Build and Deploy to Azure
 
 on:
   workflow_dispatch:
@@ -27,7 +27,9 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: $REPOSITORY/$IMAGE_NAME:${{ github.sha }},$REPOSITORY/$IMAGE_NAME:latest
+          tags: |
+            $REPOSITORY/$IMAGE_NAME:${{ github.sha }}
+            $REPOSITORY/$IMAGE_NAME:latest
 
   deploy:
     runs-on: ubuntu-latest

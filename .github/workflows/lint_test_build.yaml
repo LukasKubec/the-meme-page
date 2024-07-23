@@ -38,4 +38,4 @@ jobs:
         run: npm run test:ci
       - name: Build
         if: ${{ github.event_name == 'pull_request' }}
-        run: npm run build
+        run: npm run build:ci

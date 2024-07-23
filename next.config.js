@@ -7,7 +7,9 @@ const nextConfig = {
   pageExtensions: ["page.tsx"],
   output: "standalone",
   swcMinify: true,
-  ignoreDuringBuilds: env.IGNORE_BUILD_LINT === "true",
+  eslint: {
+    ignoreDuringBuilds: env.IGNORE_BUILD_LINT === "true",
+  },
 };
 
 module.exports = nextConfig;

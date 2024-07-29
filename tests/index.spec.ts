@@ -1,5 +1,10 @@
 import { expect, test } from "@playwright/test";
 
+const iPhoneSE = {
+  width: 320,
+  height: 568,
+};
+
 test.describe("Home Page Functionality", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
@@ -20,49 +25,54 @@ test.describe("Home Page Functionality", () => {
     expect(firstMemeSrc).not.toBe(secondMemeSrc);
   });
 
-  test("shows bottom buttons", async ({
-    page,
-  }) => {
+  test("shows action buttons", async ({ page }) => {
     await expect(page.locator("text=Download")).toBeVisible();
-    await expect(page.locator("text=Copy path to clipboard")).toBeVisible();
+    await expect(page.locator("text=Copy")).toBeVisible();
   });
 
-  test("downloads meme on download button click", async ({
-    page,
-  }) => {
-    await page.waitForSelector("img"); // Wait for the meme to load
+  test("downloads meme on download button click", async ({ page }) => {
+    await page.waitForSelector("img");
     const downloadPromise = page.waitForEvent("download");
     await page.locator("text=Download").click();
     const download = await downloadPromise;
-    expect(download.suggestedFilename()).toMatch(/\.(png|jpg|jpeg|gif|bmp|webp)$/);
-  })
+    expect(download.suggestedFilename()).toMatch(
+      /\.(png|jpg|jpeg|gif|bmp|webp)$/
+    );
+  });
 
-  test("opens meme in new tab on click when on small screen", async ({
+  test("loads a new random meme on click on image", async ({ page }) => {
+    await page.waitForSelector("img");
+    const meme = page.locator("img");
+    const initialMemeSrc = await meme.getAttribute("src");
+    if (!initialMemeSrc) {
+      throw new Error("Initial meme src not found");
+    }
+
+    await meme.click();
+    await page.waitForTimeout(1000);
+
+    const newMemeSrc = await meme.getAttribute("src");
+
+    if (!newMemeSrc) {
+      throw new Error("New meme src not found");
+    }
+    expect(initialMemeSrc).not.toBe(newMemeSrc);
+  });
+
+  test("on small screens bottom line of the img is visible over the fold", async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 480, height: 480 }); // Small screen
-    await page.waitForSelector("img"); // Wait for the meme to load
-    const meme = page.locator("img");
-    const memeSrc = await meme.getAttribute("src");
+    await page.setViewportSize(iPhoneSE); // iPhone SE
+    await page.waitForSelector("img");
+    const memeImage = page.locator("img");
+    const boundingBox = await memeImage.boundingBox();
+    const viewportHeight = page.viewportSize()?.height;
 
-    if (!memeSrc) {
-      throw new Error("Meme src not found");
+    if (!boundingBox || !viewportHeight) {
+      throw new Error("Bounding box or viewport height not found");
     }
 
-    const memeUrlParamMatch = memeSrc.match(/url=([^&]+)/);
-    if (!memeUrlParamMatch) {
-      throw new Error("Meme url param not found");
-    }
-
-    const decodedMemeSrc = decodeURIComponent(memeUrlParamMatch[1]);
-
-    const newPagePromise = page.context().waitForEvent("page");
-    await meme.click() // Assuming clicking the image opens it in a new tab
-    const newPage = await newPagePromise;
-    await newPage.waitForLoadState();
-
-    const newPageUrl = newPage.url();
-
-    expect(newPageUrl).toContain(decodedMemeSrc);
+    const { y, height } = boundingBox;
+    expect(y + height).toBeLessThanOrEqual(viewportHeight);
   });
 });

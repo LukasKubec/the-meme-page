@@ -1,6 +1,5 @@
-import { Drawer, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Drawer } from "@mui/material";
 import { CloseButton } from "./CloseButton";
-import { MenuDivider } from "./MenuDivider";
 import { MenuItem, MenuItemProps } from "./MenuItem";
 import {
   ChuckNorrisOutlined,
@@ -8,6 +7,7 @@ import {
   MenuCelebrationOutlined,
 } from "./menuIcons";
 import { useNavigationContext } from "@/lib";
+import { OpenMenuButton } from "./OpenMenuButton";
 
 export const menuItems: MenuItemProps[] = [
   {
@@ -27,28 +27,36 @@ export const menuItems: MenuItemProps[] = [
   },
 ];
 
-export const MenuDrawer = (): JSX.Element => {
-  const { navigationIsOpen, closeNavigation } = useNavigationContext();
-  const theme = useTheme();
-  const matchesMd = useMediaQuery(theme.breakpoints.down("md"));
+interface Props {
+  variant?: "temporary" | "permanent";
+}
+
+export const MenuDrawer = ({ variant }: Props): JSX.Element => {
+  const { navigationIsOpen, closeNavigation, openNavigation } =
+    useNavigationContext();
+  const isTemporary = variant === "temporary";
+
   return (
-    <Drawer
-      anchor="right"
-      variant={matchesMd ? "temporary" : "permanent"}
-      open={navigationIsOpen}
-      onClose={closeNavigation}
-      sx={{
-        height: "calc(100% - 96px)",
-      }}
-      PaperProps={{
-        sx: {
-          height: matchesMd ? "15rem" : "11rem",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.12)",
-        },
-      }}
-    >
-        {matchesMd && <CloseButton onClick={closeNavigation} />}
-        <MenuDivider />
+    <>
+      {isTemporary && <OpenMenuButton setIsOpen={openNavigation} />}
+      <Drawer
+        anchor="right"
+        variant={isTemporary ? "temporary" : "permanent"}
+        open={navigationIsOpen}
+        onClose={closeNavigation}
+        transitionDuration={{ enter: 300, exit: 200 }}
+        sx={{
+          height: "calc(100% - 96px)",
+        }}
+        PaperProps={{
+          sx: {
+            height: isTemporary ? "15rem" : "11rem",
+            borderBottom: "1px solid rgba(255, 255, 255, 0.12)",
+          },
+        }}
+      >
+        {isTemporary && <CloseButton onClick={closeNavigation} />}
+        <Box sx={{ marginTop: "1rem" }}>
           {menuItems.map((item) => (
             <MenuItem
               key={item.href}
@@ -58,6 +66,8 @@ export const MenuDrawer = (): JSX.Element => {
               onClick={closeNavigation}
             />
           ))}
-    </Drawer>
+        </Box>
+      </Drawer>
+    </>
   );
 };

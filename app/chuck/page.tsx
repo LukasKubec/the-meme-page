@@ -1,11 +1,12 @@
+"use client";
 import {
   useFetchChuckApi,
   useKeyListener,
   useNavigationContext,
   useSwipe,
-} from "@/lib";
+} from "../../lib";
 import { Alert, AlertTitle, CircularProgress, Typography } from "@mui/material";
-import { RandomButton } from "@/components";
+import { RandomButton } from "../../components";
 import Link from "next/link";
 
 const Chuck = () => {

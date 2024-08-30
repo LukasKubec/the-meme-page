@@ -1,3 +1,4 @@
+"use client";
 import { createTheme, responsiveFontSizes } from "@mui/material";
 
 export const darkTheme = responsiveFontSizes(

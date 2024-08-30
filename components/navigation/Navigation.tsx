@@ -1,3 +1,4 @@
+"use client";
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { OpenMenuButton } from "./OpenMenuButton";
 import { useNavigationContext } from "@/lib";

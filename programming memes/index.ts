@@ -1,3 +1,4 @@
+"use server";
 import { StaticImageData } from "next/image";
 
 interface DefaultImageExport {
@@ -40,7 +41,7 @@ const mapDefaultExportToStaticImage = (
   values: DefaultImageExport[]
 ): StaticImageData[] => values.map((value) => value.default);
 
-export const loadMemes = (): StaticImageWithAlt[] | undefined => {
+export const loadMemes = async () => {
   const context = require.context("./", false, /\.(png|jpe?g|svg|gif)$/);
   const keys = context.keys();
   const values = keys.map(context);

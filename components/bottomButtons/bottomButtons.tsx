@@ -1,3 +1,4 @@
+"use client";
 import { StaticImageWithAlt } from "@/programming memes";
 import useDownloader from "react-use-downloader";
 import {

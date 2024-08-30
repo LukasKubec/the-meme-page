@@ -1,3 +1,4 @@
+"use client";
 import { ChuckApiResponse } from "@/types";
 import { fetcher } from "./fetchChuck";
 import useSWR from "swr";

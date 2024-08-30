@@ -1,3 +1,4 @@
+"use client";
 import { IconButton, styled } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 

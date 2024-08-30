@@ -1,3 +1,4 @@
+"use client";
 import { styled } from "@mui/material";
 import { CelebrationOutlined, PsychologyOutlined, InfoOutlined } from "@mui/icons-material";
 

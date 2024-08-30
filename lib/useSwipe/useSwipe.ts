@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useRef } from "react";
 
 interface UseSwipeParams {
@@ -8,6 +9,7 @@ interface UseSwipeParams {
 const useSwipe = ({ onSwipeRight, onSwipeLeft }: UseSwipeParams) => {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
+  const controller = new AbortController();
 
   const onRight = (fn?: () => void) => {
     if (fn && touchStartX.current < touchEndX.current) fn();
@@ -15,21 +17,30 @@ const useSwipe = ({ onSwipeRight, onSwipeLeft }: UseSwipeParams) => {
   const onLeft = (fn?: () => void) => {
     if (fn && touchStartX.current > touchEndX.current) fn();
   };
+
   useEffect(() => {
     if (onSwipeRight || onSwipeLeft) {
-      document.addEventListener("touchstart", (e) => {
-        touchStartX.current = e.changedTouches[0].screenX;
-      });
-      document.addEventListener("touchend", (e) => {
-        touchEndX.current = e.changedTouches[0].screenX;
-        onRight(onSwipeRight);
-        onLeft(onSwipeLeft);
-      });
+      document.addEventListener(
+        "touchstart",
+        (e) => {
+          touchStartX.current = e.changedTouches[0].screenX;
+        },
+        { signal: controller.signal }
+      );
+
+      document.addEventListener(
+        "touchend",
+        (e) => {
+          touchEndX.current = e.changedTouches[0].screenX;
+          onRight(onSwipeRight);
+          onLeft(onSwipeLeft);
+        },
+        { signal: controller.signal }
+      );
     }
     return () => {
-        document.removeEventListener("touchstart", () => {});
-        document.removeEventListener("touchend", () => {});
-    }
+      controller.abort();
+    };
   }, []);
 };
 

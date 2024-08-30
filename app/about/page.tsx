@@ -1,4 +1,5 @@
-import { useNavigationContext } from "@/lib";
+"use client";
+import { useNavigationContext } from "../../lib";
 import { Typography } from "@mui/material";
 import Link from "next/link";
 import { OpenInNewOutlined } from "@mui/icons-material";

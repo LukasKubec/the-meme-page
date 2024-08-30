@@ -1,3 +1,4 @@
+"use client";
 import { StaticImageWithAlt } from "@/programming memes";
 import useDownloader from "react-use-downloader";
 import {
@@ -26,23 +27,22 @@ const BottomButtons = ({
   const { download } = useDownloader();
 
   const copyToClipboard = async () => {
-    if (meme) {
-      try {
-        const img = await fetch(meme.src);
-        const imgBlob = await img.blob();
-        await navigator.clipboard.write([
-          new ClipboardItem({
-            [imgBlob.type]: imgBlob,
-          }),
-        ]);
-        console.log("Image copied to clipboard");
-        if (buttonError) {
-          setButtonError(undefined);
-        }
-      } catch (error) {
-        console.error("Failed to copy image: ", error);
-        setButtonError("Failed to copy image to clipboard.");
+    if (!meme) return;
+    try {
+      const img = await fetch(meme.src);
+      const imgBlob = await img.blob();
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          [imgBlob.type]: imgBlob,
+        }),
+      ]);
+      console.log("Image copied to clipboard");
+      if (buttonError) {
+        setButtonError(undefined);
       }
+    } catch (error) {
+      console.error("Failed to copy image: ", error);
+      setButtonError("Failed to copy image to clipboard.");
     }
   };
 
@@ -88,7 +88,7 @@ const BottomButtons = ({
       {buttonError && (
         <Alert severity="error">
           <AlertTitle>Error</AlertTitle>
-          Failed to copy image to clipboard.
+          {buttonError}
         </Alert>
       )}
       <RandomButton onClick={setRandomMeme} label="Random meme!" fullWidth />

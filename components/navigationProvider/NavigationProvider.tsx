@@ -1,3 +1,4 @@
+"use client";
 import { navigationContext } from "@/lib";
 import { ReactNode, useState } from "react";
 

@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useRef, useState } from "react";
 
 type VisitedPredicate<T, V> = (item: T, visited: V[]) => boolean;

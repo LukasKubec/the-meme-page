@@ -19,7 +19,8 @@ export const useFetchChuckApi = (): UseFetchChuckApi => {
   });
 
   const setRandomFact = () => mutate(data);
-  const sanitized = DOMPurify.sanitize(data?.value || "");
+  const sanitized =
+    typeof window !== "undefined" ? DOMPurify.sanitize(data?.value || "") : "";
 
   return {
     fact: sanitized,

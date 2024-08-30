@@ -35,9 +35,7 @@ test.describe("Home Page Functionality", () => {
     const downloadPromise = page.waitForEvent("download");
     await page.locator("text=Download").click();
     const download = await downloadPromise;
-    expect(download.suggestedFilename()).toMatch(
-      /\.(png|jpg|jpeg|gif|bmp|webp)$/
-    );
+    expect(download.suggestedFilename()).toMatch(/\.(png|jpg|jpeg|gif|bmp|webp)$/i);
   });
 
   test("loads a new random meme on click on image", async ({ page }) => {

@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-**This project lives on [Vercel](https://the-meme-page-lovat.vercel.app/).**
+**This project lives on [Vercel](https://the-meme-page-lovat.vercel.app/) and [memes.lukaskubec.cz](https://memes.lukaskubec.cz).**
 
 ## Getting Started
 
